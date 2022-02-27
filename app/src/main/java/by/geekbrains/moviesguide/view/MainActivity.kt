@@ -1,7 +1,8 @@
-package by.geekbrains.moviesguide
+package by.geekbrains.moviesguide.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import by.geekbrains.moviesguide.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
