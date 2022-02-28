@@ -1,4 +1,4 @@
-package by.geekbrains.moviesguide.view
+package by.geekbrains.moviesguide.view.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
 import by.geekbrains.moviesguide.model.Movie
 import by.geekbrains.moviesguide.viewmodel.AppState
@@ -16,11 +15,10 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
+    // This fragment will be use later
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    lateinit var recyclerView: RecyclerView
-    private val adapter by lazy { MainAdapter() }
 
     companion object {
         fun nInstance(): MainFragment = MainFragment()
@@ -41,12 +39,6 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getMovieFromLocalSource()
-        initRecycler()
-    }
-
-    private fun initRecycler() {
-        recyclerView = binding.mainFragmentRecyclerView
-        recyclerView.adapter = adapter
     }
 
     private fun renderData(appState: AppState) {
@@ -71,7 +63,6 @@ class MainFragment : Fragment() {
     }
 
     private fun setData(movieData: Movie) {
-
     }
 
     override fun onDestroyView() {
