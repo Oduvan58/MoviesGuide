@@ -9,15 +9,22 @@
     <dimen name="corner_radius_card_view">16dp</dimen>
     <dimen name="card_elevation_card_view">2dp</dimen>
     <dimen name="content_padding_card_view">4dp</dimen>
-    <dimen name="width_image_view">100dp</dimen>
-    <dimen name="height_image_view">125dp</dimen>
+    <dimen name="width_image_view">150dp</dimen>
+    <dimen name="height_image_view">200dp</dimen>
     <dimen name="padding_bottom_title_text_view">5dp</dimen>
-    <dimen name="text_size_text_view">18sp</dimen>
+    <dimen name="text_size_text_view">14sp</dimen>
     <dimen name="height_detail_movie_image_view">300dp</dimen>
     <dimen name="margin_top_title_movie_text_view">16dp</dimen>
-    <dimen name="text_size_title_movie_text_view">24sp</dimen>
+    <dimen name="text_size_title_movie_text_view">12sp</dimen>
     <dimen name="text_size_date_text_view">20sp</dimen>
     <dimen name="text_size_description_text_view">20sp</dimen>
-    <dimen name="margin_start_item_text_view">16dp</dimen>
+    <dimen name="margin_start_item_text_view">12dp</dimen>
     <dimen name="margin_top_item_text_view">16dp</dimen>
+    <dimen name="padding_root_layout">2dp</dimen>
+    <dimen name="width_card_view">173dp</dimen>
+    <dimen name="width_inner_layout">150dp</dimen>
+    <dimen name="width_star_image_view">20dp</dimen>
+    <dimen name="height_star_image_view">20dp</dimen>
+    <dimen name="margin_end_star_image_view">5dp</dimen>
+    <dimen name="margin_end_rating_text_view">12dp</dimen>
 </resources>
