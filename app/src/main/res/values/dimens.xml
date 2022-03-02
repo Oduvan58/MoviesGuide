@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="root_width_item_movie">190dp</dimen>
+    <dimen name="root_height_item_movie">250dp</dimen>
+    <dimen name="margin_start_card_view">10dp</dimen>
+    <dimen name="margin_top_card_view">5dp</dimen>
+    <dimen name="margin_end_card_view">5dp</dimen>
+    <dimen name="margin_bottom_card_view">5dp</dimen>
+    <dimen name="corner_radius_card_view">16dp</dimen>
+    <dimen name="card_elevation_card_view">2dp</dimen>
+    <dimen name="content_padding_card_view">4dp</dimen>
+    <dimen name="width_image_view">100dp</dimen>
+    <dimen name="height_image_view">125dp</dimen>
+    <dimen name="padding_bottom_title_text_view">5dp</dimen>
+    <dimen name="text_size_text_view">18sp</dimen>
+    <dimen name="height_detail_movie_image_view">300dp</dimen>
+    <dimen name="margin_top_title_movie_text_view">16dp</dimen>
+    <dimen name="text_size_title_movie_text_view">24sp</dimen>
+    <dimen name="text_size_date_text_view">20sp</dimen>
+    <dimen name="text_size_description_text_view">20sp</dimen>
+    <dimen name="margin_start_item_text_view">16dp</dimen>
+    <dimen name="margin_top_item_text_view">16dp</dimen>
+</resources>
