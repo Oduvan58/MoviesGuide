@@ -25,10 +25,10 @@
         android:layout_width="@dimen/weight_detail_movie_image_view"
         android:layout_height="@dimen/height_detail_movie_image_view"
         android:paddingStart="@dimen/padding_start_detail_image_view"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="@id/title_movie_text_view"
         app:layout_constraintTop_toBottomOf="@id/title_movie_text_view"
-        app:srcCompat="@drawable/ic_baseline_live_tv_24" />
+        app:srcCompat="@drawable/ic_iron_man_image_view" />
 
     <TextView
         android:id="@+id/genre_movie_text_view"

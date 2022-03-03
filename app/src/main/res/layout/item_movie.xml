@@ -29,9 +29,10 @@
                 android:layout_width="@dimen/width_image_view"
                 android:layout_height="@dimen/height_image_view"
                 android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_live_tv_24" />
+                app:srcCompat="@drawable/ic_iron_man_image_view" />
 
             <TextView
                 android:id="@+id/item_movie_title_text_view"

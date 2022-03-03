@@ -20,7 +20,7 @@
     <dimen name="margin_start_item_text_view">12dp</dimen>
     <dimen name="margin_top_item_text_view">10dp</dimen>
     <dimen name="padding_root_layout">2dp</dimen>
-    <dimen name="width_card_view">173dp</dimen>
+    <dimen name="width_card_view">168dp</dimen>
     <dimen name="width_inner_layout">150dp</dimen>
     <dimen name="width_star_image_view">20dp</dimen>
     <dimen name="height_star_image_view">20dp</dimen>
