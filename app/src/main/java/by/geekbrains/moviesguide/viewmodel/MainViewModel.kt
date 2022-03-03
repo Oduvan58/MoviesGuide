@@ -15,7 +15,7 @@ class MainViewModel(
     fun getLiveDataNow() = liveDataToObserveNow
     fun getLiveDataSoon() = liveDataToObserveSoon
 
-    private fun getDataFromLocalSourceNow() {
+    fun getDataFromLocalSourceNow() {
         liveDataToObserveNow.value = AppState.Loading
         Thread {
             sleep(1000)
@@ -23,7 +23,7 @@ class MainViewModel(
         }.start()
     }
 
-    private fun getDataFromLocalSourceSoon() {
+    fun getDataFromLocalSourceSoon() {
         liveDataToObserveSoon.value = AppState.Loading
         Thread {
             sleep(1000)
