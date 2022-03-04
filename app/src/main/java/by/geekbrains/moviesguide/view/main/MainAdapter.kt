@@ -20,7 +20,7 @@ class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_movie, parent, false)
+                .inflate(R.layout.item_movie, parent, false) as View
         )
     }
 

@@ -10,8 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.geekbrains.moviesguide.R
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
 import by.geekbrains.moviesguide.model.Movie
+import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment
+import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment.Companion.BUNDLE_KEY
 import by.geekbrains.moviesguide.viewmodel.AppState
 import by.geekbrains.moviesguide.viewmodel.MainViewModel
 
@@ -42,6 +45,12 @@ class MainFragment : Fragment() {
         val manager = activity?.supportFragmentManager
         if (manager != null) {
             val bundle = Bundle()
+            bundle.putParcelable(BUNDLE_KEY, movie)
+            manager.beginTransaction()
+                .replace(R.id.activity_main__details_movie_fragment_container,
+                    DetailsMovieFragment.nInstance(bundle))
+                .addToBackStack("")
+                .commit()
         }
     }
 
@@ -62,10 +71,10 @@ class MainFragment : Fragment() {
 
         viewModel.getLiveDataNow()
             .observe(viewLifecycleOwner, Observer { renderData(it, adapterNow) })
-        viewModel.getDataFromLocalSourceNow()
+        viewModel.getMovieFromLocalSourceNow()
         viewModel.getLiveDataSoon()
             .observe(viewLifecycleOwner, Observer { renderData(it, adapterSoon) })
-        viewModel.getDataFromLocalSourceSoon()
+        viewModel.getMovieFromLocalSourceSoon()
     }
 
     private fun renderData(appState: AppState, adapter: MainAdapter) {
@@ -84,7 +93,8 @@ class MainFragment : Fragment() {
     }
 
     private fun isLoad(isShow: Boolean) {
-        binding.loadingLayout.isVisible = isShow
+        binding.loadingNow.isVisible = isShow
+        binding.loadingSoon.isVisible = isShow
     }
 
     private fun initRecycler(recyclerView: RecyclerView, adapter: MainAdapter) {
