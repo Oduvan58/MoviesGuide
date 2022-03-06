@@ -16,7 +16,7 @@ class MainViewModel(
     fun getLiveDataSoon() = liveDataToObserveSoon
 
     fun getMovieFromLocalSourceNow() {
-        liveDataToObserveNow.value = AppState.Loading
+        liveDataToObserveNow.postValue(AppState.Loading)
         Thread {
             sleep(1000)
             liveDataToObserveNow.postValue(AppState.Success(
@@ -25,7 +25,7 @@ class MainViewModel(
     }
 
     fun getMovieFromLocalSourceSoon() {
-        liveDataToObserveNow.value = AppState.Loading
+        liveDataToObserveNow.postValue(AppState.Loading)
         Thread {
             sleep(1000)
             liveDataToObserveSoon.postValue(AppState.Success(

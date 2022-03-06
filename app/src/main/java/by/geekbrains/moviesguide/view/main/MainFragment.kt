@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +23,12 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun nInstance(): MainFragment = MainFragment()
+        fun nInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
 
     private val adapterNow = MainAdapter(object : OnClickItemMovie {
         override fun onItemClick(movie: Movie) {
@@ -42,13 +43,12 @@ class MainFragment : Fragment() {
     })
 
     private fun showDetailsMovie(movie: Movie) {
-        val manager = activity?.supportFragmentManager
-        if (manager != null) {
-            val bundle = Bundle()
-            bundle.putParcelable(BUNDLE_KEY, movie)
-            manager.beginTransaction()
+        activity?.supportFragmentManager?.apply {
+            beginTransaction()
                 .replace(R.id.activity_main__details_movie_fragment_container,
-                    DetailsMovieFragment.nInstance(bundle))
+                    DetailsMovieFragment.nInstance(Bundle().apply {
+                        putParcelable(BUNDLE_KEY, movie)
+                    }))
                 .addToBackStack("")
                 .commit()
         }
@@ -64,16 +64,19 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initRecycler(binding.mainFragmentNowRecyclerView, adapterNow)
         initRecycler(binding.mainFragmentUpcomingRecyclerView, adapterSoon)
 
         viewModel.getLiveDataNow()
-            .observe(viewLifecycleOwner, Observer { renderData(it, adapterNow) })
+            .observe(viewLifecycleOwner) { appState ->
+                renderData(appState, adapterNow)
+            }
         viewModel.getMovieFromLocalSourceNow()
         viewModel.getLiveDataSoon()
-            .observe(viewLifecycleOwner, Observer { renderData(it, adapterSoon) })
+            .observe(viewLifecycleOwner) { appState ->
+                renderData(appState, adapterSoon)
+            }
         viewModel.getMovieFromLocalSourceSoon()
     }
 
@@ -111,6 +114,7 @@ class MainFragment : Fragment() {
 
     override fun onDestroy() {
         adapterNow.removeListener()
+        adapterSoon.removeListener()
         super.onDestroy()
     }
 }
