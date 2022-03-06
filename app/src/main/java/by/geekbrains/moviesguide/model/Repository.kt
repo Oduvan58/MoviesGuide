@@ -2,6 +2,5 @@ package by.geekbrains.moviesguide.model
 
 interface Repository {
 
-    fun getMovieFromServer(): Movie
-    fun getMovieFromLocalStorage(): Movie
+    fun getMovieFromServer(nowMovie: Boolean): List<Movie>
 }

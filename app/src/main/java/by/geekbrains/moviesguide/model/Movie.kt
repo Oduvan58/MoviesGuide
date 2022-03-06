@@ -1,10 +1,13 @@
 package by.geekbrains.moviesguide.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
-    val name: String = "Железный человек",
-    val date: String = "2008",
-)
-
-
-
-
+    var name: String,
+    var date: String,
+    var description: String,
+    var genre: String,
+    var rating: Double,
+) : Parcelable
