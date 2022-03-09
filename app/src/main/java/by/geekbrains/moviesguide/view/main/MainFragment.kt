@@ -74,6 +74,7 @@ class MainFragment : Fragment() {
                 renderData(appState, adapterNow)
             }
         viewModel.getMovieFromLocalSourceNow()
+
         viewModel.getLiveDataSoon()
             .observe(viewLifecycleOwner) { appState ->
                 renderData(appState, adapterSoon)
