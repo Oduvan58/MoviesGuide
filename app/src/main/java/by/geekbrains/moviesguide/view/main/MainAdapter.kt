@@ -28,9 +28,7 @@ class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
         holder.bind(movieData[position])
     }
 
-    override fun getItemCount(): Int {
-        return movieData.size
-    }
+    override fun getItemCount() = movieData.size
 
     fun removeListener() {
         onClickItemMovie = null
@@ -41,11 +39,11 @@ class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
         private val date = itemView.findViewById<TextView>(R.id.item_movie_date_text_view)
         private val rating = itemView.findViewById<TextView>(R.id.item_movie_rating_text_view)
 
-        fun bind(movie: Movie) {
+        fun bind(movie: Movie) = with(itemView) {
             title.text = movie.name
             date.text = movie.date
             rating.text = movie.rating.toString()
-            itemView.setOnClickListener {
+            setOnClickListener {
                 onClickItemMovie?.onItemClick(movie)
             }
         }

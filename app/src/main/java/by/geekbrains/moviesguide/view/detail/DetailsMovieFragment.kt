@@ -33,8 +33,7 @@ class DetailsMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movie = arguments?.getParcelable<Movie>(BUNDLE_KEY)
-        if (movie != null) {
+        arguments?.getParcelable<Movie>(BUNDLE_KEY)?.let { movie ->
             binding.titleMovieTextView.text = movie.name
             binding.detailMovieDateTextView.text = movie.date
             binding.detailMovieDescriptionTextView.text = movie.description
