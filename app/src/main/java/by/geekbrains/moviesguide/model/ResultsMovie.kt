@@ -1,18 +1,31 @@
 package by.geekbrains.moviesguide.model
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ResultsMovie(
-    val adult: Boolean?,
-    val backdrop_path: String?,
-    val genre_ids: List<Int?>?,
-    val id: Int?,
-    val original_language: String?,
-    val original_title: String?,
-    val overview: String?,
-    val popularity: Double?,
-    val poster_path: String?,
-    val release_date: String?,
-    val title: String?,
-    val video: Boolean?,
-    val vote_average: Double?,
-    val vote_count: Int?
-)
+    val adult: Boolean? = null,
+    @SerializedName("backdrop_path")
+    val backdropPath: String? = null,
+    @SerializedName("genre_ids")
+    val genreIds: List<Int?>? = null,
+    val id: Int? = null,
+    @SerializedName("original_language")
+    val originalLanguage: String? = null,
+    @SerializedName("original_title")
+    val originalTitle: String? = null,
+    val overview: String? = null,
+    val popularity: Double? = null,
+    @SerializedName("poster_path")
+    val posterPath: String? = null,
+    @SerializedName("release_date")
+    val releaseDate: String? = null,
+    val title: String? = null,
+    val video: Boolean? = null,
+    @SerializedName("vote_average")
+    val voteAverage: Double? = null,
+    @SerializedName("vote_count")
+    val voteCount: Int? = null,
+) : Parcelable
