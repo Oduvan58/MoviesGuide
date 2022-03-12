@@ -1,10 +1,9 @@
 package by.geekbrains.moviesguide.model
 
 class RepositoryImpl : Repository {
-    override fun getMovieFromServer(nowMovie: Boolean) =
+    override fun getMovieFromServer(nowMovie: Boolean): List<Movie> =
         if (nowMovie) getNowMovie() else getSoonMovie()
 }
-
 private fun getNowMovie() = listOf(
     Movie("Железный человек", "2008", "Миллиардер-изобретатель Тони Старк " +
             "попадает в плен к Афганским террористам, которые пытаются заставить его создать " +
@@ -77,4 +76,5 @@ private fun getSoonMovie() = listOf(
             "Человеке-муравье и Хоуп ван Дайн / Осе", "Фэнтези, Боевик, Приключения",
         8.0)
 )
+
 

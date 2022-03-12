@@ -2,7 +2,6 @@ package by.geekbrains.moviesguide.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.util.*
 
 @Parcelize
 data class Movie(
@@ -11,5 +10,5 @@ data class Movie(
     var description: String? = null,
     var genre: String? = null,
     var rating: Double? = null,
-    var id: String? = UUID.randomUUID().toString()
+    var id: String? = null
 ) : Parcelable

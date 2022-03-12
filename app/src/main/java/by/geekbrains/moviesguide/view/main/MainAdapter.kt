@@ -6,14 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.R
-import by.geekbrains.moviesguide.model.Movie
+import by.geekbrains.moviesguide.model.ResultsMovie
 
 class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
-    private var movieData: List<Movie> = listOf()
+    private var movieData: ArrayList<ResultsMovie> = ArrayList()
 
-    fun setMovie(data: List<Movie>) {
-        movieData = data
+    fun setMovie(data: ArrayList<ResultsMovie>) {
+        data.let {
+            this.movieData = it
+        }
         notifyDataSetChanged()
     }
 
@@ -39,10 +41,10 @@ class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
         private val date = itemView.findViewById<TextView>(R.id.item_movie_date_text_view)
         private val rating = itemView.findViewById<TextView>(R.id.item_movie_rating_text_view)
 
-        fun bind(movie: Movie) = with(itemView) {
-            title.text = movie.name
-            date.text = movie.date
-            rating.text = movie.rating.toString()
+        fun bind(movie: ResultsMovie) = with(itemView) {
+            title.text = movie.title
+            date.text = movie.releaseDate
+            rating.text = movie.voteAverage.toString()
             setOnClickListener {
                 onClickItemMovie?.onItemClick(movie)
             }
@@ -51,5 +53,5 @@ class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
 }
 
 interface OnClickItemMovie {
-    fun onItemClick(movie: Movie)
+    fun onItemClick(movie: ResultsMovie)
 }
