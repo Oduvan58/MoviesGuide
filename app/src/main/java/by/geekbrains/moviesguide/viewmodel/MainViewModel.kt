@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.geekbrains.moviesguide.model.MovieLoader
 import by.geekbrains.moviesguide.model.MoviesDTO
-import by.geekbrains.moviesguide.model.ResultsMovie
-import java.lang.Thread.sleep
 
 class MainViewModel(
     private val liveDataToObserveNow: MutableLiveData<AppState> = MutableLiveData(),
@@ -31,12 +29,12 @@ class MainViewModel(
     @RequiresApi(Build.VERSION_CODES.N)
     fun getMovieFromLocalSourceNow() {
         liveDataToObserveNow.postValue(AppState.Loading)
-        Thread {
-            sleep(1000)
-            liveDataToObserveNow.postValue(AppState.Success(
-                onLoadListener.onLoaded(movieData.results, MovieLoader.NOW)
-            ))
-        }.start()
+//        Thread {
+//            sleep(1000)
+//            liveDataToObserveNow.postValue(AppState.Success(
+//                onLoadListener.onLoaded(movieData.results, MovieLoader.NOW)
+//            ))
+//        }.start()
     }
 
     fun getMovieFromLocalSourceSoon() {
