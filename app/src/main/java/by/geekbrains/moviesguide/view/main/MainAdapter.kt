@@ -10,9 +10,9 @@ import by.geekbrains.moviesguide.model.ResultsMovie
 
 class MainAdapter(private var onClickItemMovie: OnClickItemMovie?) :
     RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
-    private var movieData: ArrayList<ResultsMovie> = ArrayList()
+    private var movieData: List<ResultsMovie> = listOf()
 
-    fun setMovie(data: ArrayList<ResultsMovie>) {
+    fun setMovie(data: List<ResultsMovie>) {
         data.let {
             this.movieData = it
         }

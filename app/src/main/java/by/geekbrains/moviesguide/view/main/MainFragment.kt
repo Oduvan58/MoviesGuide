@@ -1,6 +1,7 @@
 package by.geekbrains.moviesguide.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.R
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
+import by.geekbrains.moviesguide.model.MovieLoader
+import by.geekbrains.moviesguide.model.MoviesDTO
 import by.geekbrains.moviesguide.model.ResultsMovie
 import by.geekbrains.moviesguide.showSnackBar
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment
@@ -22,6 +25,18 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val onLoadListener: MovieLoader.MovieLoaderListener =
+        object : MovieLoader.MovieLoaderListener {
+            override fun onLoaded(movieDTO: MoviesDTO, baseUrl: String) {
+                if (baseUrl == MovieLoader.UPCOMING) adapterSoon.setMovie(movieDTO.results)
+                if (baseUrl == MovieLoader.NOW) adapterNow.setMovie(movieDTO.results)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+                throwable.message?.let { Log.d("TAG", it) }
+            }
+        }
 
     companion object {
         fun nInstance() = MainFragment()
@@ -80,6 +95,11 @@ class MainFragment : Fragment() {
                 renderData(appState, adapterSoon)
             }
         viewModel.getMovieFromLocalSourceSoon()
+
+        val loaderUpcoming = MovieLoader(onLoadListener, MovieLoader.UPCOMING)
+        loaderUpcoming.loadMovie()
+        val loaderNow = MovieLoader(onLoadListener, MovieLoader.NOW)
+        loaderNow.loadMovie()
     }
 
     private fun renderData(appState: AppState, adapter: MainAdapter) {

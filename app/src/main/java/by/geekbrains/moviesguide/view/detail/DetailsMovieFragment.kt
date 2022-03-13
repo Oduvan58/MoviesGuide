@@ -21,18 +21,18 @@ class DetailsMovieFragment : Fragment() {
 
     private val mutableThrowable: MutableLiveData<Throwable> = MutableLiveData()
 
-    private lateinit var movieBundle: Movie
-    private val onLoadListener: MovieLoader.MovieLoaderListener =
-        object : MovieLoader.MovieLoaderListener {
-            override fun onLoaded(movieDTO: ResultsMovie) {
-                displayMovie(movieDTO)
-            }
-
-            override fun onFailed(throwable: Throwable) {
-                throwable.message?.let { Log.d("TAG", it) }
-                mutableThrowable.postValue(throwable)
-            }
-        }
+    private var movieBundle: ResultsMovie? = null
+//    private val onLoadListener: MovieLoader.MovieLoaderListener =
+//        object : MovieLoader.MovieLoaderListener {
+//            override fun onLoaded(movieDTO: ResultsMovie) {
+//                displayMovie(movieDTO)
+//            }
+//
+//            override fun onFailed(throwable: Throwable) {
+//                throwable.message?.let { Log.d("TAG", it) }
+//                mutableThrowable.postValue(throwable)
+//            }
+//        }
 
     companion object {
         const val BUNDLE_KEY = "show_detail_movie"
@@ -55,9 +55,8 @@ class DetailsMovieFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieBundle = arguments?.getParcelable(BUNDLE_KEY) ?: Movie()
-        val loader = MovieLoader(onLoadListener)
-        loader.loadMovie()
+        movieBundle = arguments?.getParcelable(BUNDLE_KEY)
+        movieBundle?.let { displayMovie(it) }
     }
 
     private fun displayMovie(movieDTO: ResultsMovie) {
