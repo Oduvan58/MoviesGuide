@@ -1,9 +1,11 @@
 package by.geekbrains.moviesguide.view.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.R
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
+import by.geekbrains.moviesguide.model.MovieLoader
+import by.geekbrains.moviesguide.model.MoviesDTO
 import by.geekbrains.moviesguide.model.ResultsMovie
 import by.geekbrains.moviesguide.showSnackBar
+import by.geekbrains.moviesguide.view.detail.AlertDialogFragment
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment.Companion.BUNDLE_KEY
 import by.geekbrains.moviesguide.viewmodel.AppState
@@ -22,6 +27,20 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val onLoadListener: MovieLoader.MovieLoaderListener =
+        object : MovieLoader.MovieLoaderListener {
+            override fun onLoaded(movieDTO: MoviesDTO, baseUrl: String) {
+                if (baseUrl == MovieLoader.UPCOMING) adapterSoon.setMovie(movieDTO.results)
+                if (baseUrl == MovieLoader.NOW) adapterNow.setMovie(movieDTO.results)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+                throwable.message.let {
+                    AlertDialogFragment().show(childFragmentManager, AlertDialogFragment.DIALOG_FRAGMENT_TAG)
+                }
+            }
+        }
 
     companion object {
         fun nInstance() = MainFragment()
@@ -63,6 +82,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,6 +100,11 @@ class MainFragment : Fragment() {
                 renderData(appState, adapterSoon)
             }
         viewModel.getMovieFromLocalSourceSoon()
+
+        val loaderUpcoming = MovieLoader(onLoadListener, MovieLoader.UPCOMING)
+        loaderUpcoming.loadMovie()
+        val loaderNow = MovieLoader(onLoadListener, MovieLoader.NOW)
+        loaderNow.loadMovie()
     }
 
     private fun renderData(appState: AppState, adapter: MainAdapter) {

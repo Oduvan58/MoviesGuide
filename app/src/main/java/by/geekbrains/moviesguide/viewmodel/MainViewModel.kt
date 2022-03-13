@@ -1,35 +1,50 @@
 package by.geekbrains.moviesguide.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import by.geekbrains.moviesguide.model.Repository
-import by.geekbrains.moviesguide.model.RepositoryImpl
+import by.geekbrains.moviesguide.model.MovieLoader
+import by.geekbrains.moviesguide.model.MoviesDTO
+import by.geekbrains.moviesguide.model.ResultsMovie
 import java.lang.Thread.sleep
 
 class MainViewModel(
     private val liveDataToObserveNow: MutableLiveData<AppState> = MutableLiveData(),
     private val liveDataToObserveSoon: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repository = RepositoryImpl()
+    private val onLoadListener: MovieLoader.MovieLoaderListener =
+        object : MovieLoader.MovieLoaderListener {
+            override fun onLoaded(movieDTO: MoviesDTO, baseUrl: String) {
+
+            }
+
+            override fun onFailed(throwable: Throwable) {
+
+            }
+        },
+    private var movieData: MoviesDTO
 ) : ViewModel() {
 
     fun getLiveDataNow() = liveDataToObserveNow
     fun getLiveDataSoon() = liveDataToObserveSoon
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getMovieFromLocalSourceNow() {
         liveDataToObserveNow.postValue(AppState.Loading)
         Thread {
             sleep(1000)
             liveDataToObserveNow.postValue(AppState.Success(
-                repositoryImpl.getMovieFromServer(true)))
+                onLoadListener.onLoaded(movieData.results, MovieLoader.NOW)
+            ))
         }.start()
     }
 
     fun getMovieFromLocalSourceSoon() {
         liveDataToObserveNow.postValue(AppState.Loading)
-        Thread {
-            sleep(1000)
-            liveDataToObserveSoon.postValue(AppState.Success(
-                repositoryImpl.getMovieFromServer(false)))
-        }.start()
+//        Thread {
+//            sleep(1000)
+//            liveDataToObserveSoon.postValue(AppState.Success(
+//                repositoryImpl.getMovieFromServer(false)))
+//        }.start()
     }
 }
