@@ -13,7 +13,6 @@ class MainViewModel(
     private val liveDataToObserveSoon: MutableLiveData<AppState> = MutableLiveData(),
 ) : ViewModel() {
 
-    private val showDialog = AlertDialogFragment()
     private val fragment: AlertDialogFragment = AlertDialogFragment()
 
     private val onLoadListener: MovieLoader.MovieLoaderListener =
@@ -27,7 +26,7 @@ class MainViewModel(
 
             override fun onFailed(throwable: Throwable) {
                 throwable.message?.let {
-                    showDialog.show(fragment.childFragmentManager,
+                    fragment.show(fragment.childFragmentManager,
                         AlertDialogFragment.DIALOG_FRAGMENT_TAG)
                 }
             }
