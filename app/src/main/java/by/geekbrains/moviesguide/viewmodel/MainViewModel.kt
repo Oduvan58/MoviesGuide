@@ -5,23 +5,36 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import by.geekbrains.moviesguide.model.MovieLoader
-import by.geekbrains.moviesguide.model.MoviesDTO
+import by.geekbrains.moviesguide.model.ResultsMovie
+import by.geekbrains.moviesguide.view.detail.AlertDialogFragment
 
 class MainViewModel(
     private val liveDataToObserveNow: MutableLiveData<AppState> = MutableLiveData(),
     private val liveDataToObserveSoon: MutableLiveData<AppState> = MutableLiveData(),
+) : ViewModel() {
+
+    private val showDialog = AlertDialogFragment()
+    private val fragment: AlertDialogFragment = AlertDialogFragment()
+
     private val onLoadListener: MovieLoader.MovieLoaderListener =
         object : MovieLoader.MovieLoaderListener {
-            override fun onLoaded(movieDTO: MoviesDTO, baseUrl: String) {
-
+            override fun onLoaded(movies: List<ResultsMovie>, isNow: Boolean) {
+                when (isNow) {
+                    true -> liveDataToObserveNow.postValue(AppState.Success(movies))
+                    false -> liveDataToObserveSoon.postValue(AppState.Success(movies))
+                }
             }
 
             override fun onFailed(throwable: Throwable) {
-
+                throwable.message?.let {
+                    showDialog.show(fragment.childFragmentManager,
+                        AlertDialogFragment.DIALOG_FRAGMENT_TAG)
+                }
             }
-        },
-    private var movieData: MoviesDTO
-) : ViewModel() {
+        }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private val movieLoader: MovieLoader = MovieLoader(onLoadListener)
 
     fun getLiveDataNow() = liveDataToObserveNow
     fun getLiveDataSoon() = liveDataToObserveSoon
@@ -29,20 +42,12 @@ class MainViewModel(
     @RequiresApi(Build.VERSION_CODES.N)
     fun getMovieFromLocalSourceNow() {
         liveDataToObserveNow.postValue(AppState.Loading)
-//        Thread {
-//            sleep(1000)
-//            liveDataToObserveNow.postValue(AppState.Success(
-//                onLoadListener.onLoaded(movieData.results, MovieLoader.NOW)
-//            ))
-//        }.start()
+        movieLoader.loadMovie(true)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getMovieFromLocalSourceSoon() {
         liveDataToObserveNow.postValue(AppState.Loading)
-//        Thread {
-//            sleep(1000)
-//            liveDataToObserveSoon.postValue(AppState.Success(
-//                repositoryImpl.getMovieFromServer(false)))
-//        }.start()
+        movieLoader.loadMovie(false)
     }
 }

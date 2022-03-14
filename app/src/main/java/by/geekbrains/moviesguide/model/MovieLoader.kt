@@ -1,8 +1,6 @@
 package by.geekbrains.moviesguide.model
 
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import by.geekbrains.moviesguide.BuildConfig
@@ -15,7 +13,7 @@ import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
 @RequiresApi(Build.VERSION_CODES.N)
-class MovieLoader(private val listener: MovieLoaderListener, private val baseUrl: String) {
+class MovieLoader(private val loader: MovieLoaderListener) {
 
     companion object {
         const val NOW = "https://api.themoviedb.org/3/movie/now_playing"
@@ -23,11 +21,10 @@ class MovieLoader(private val listener: MovieLoaderListener, private val baseUrl
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun loadMovie() {
+    fun loadMovie(isNow: Boolean) {
         try {
-            val uri =
-                URL("$baseUrl?api_key=${BuildConfig.MOVIE_API_KEY}")
-            val handler = Handler(Looper.getMainLooper())
+            val uri = if (isNow) URL("$NOW?api_key=${BuildConfig.MOVIE_API_KEY}")
+            else URL("$UPCOMING?api_key=${BuildConfig.MOVIE_API_KEY}")
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
                 try {
@@ -36,14 +33,13 @@ class MovieLoader(private val listener: MovieLoaderListener, private val baseUrl
                     urlConnection.readTimeout = 10000
                     val stream = InputStreamReader(urlConnection.inputStream)
                     val bufferedReader = BufferedReader(stream)
-                    val movieDTO: MoviesDTO =
-                        Gson().fromJson(getLines(bufferedReader),
-                            MoviesDTO::class.java)
-                    handler.post { listener.onLoaded(movieDTO, baseUrl) }
+                    val movies =
+                        Gson().fromJson(getLines(bufferedReader), MoviesDTO::class.java).results
+                    loader.onLoaded(movies, isNow)
                 } catch (e: Exception) {
                     Log.e("", "Fail connection", e)
                     e.printStackTrace()
-                    listener.onFailed(e)
+                    loader.onFailed(e)
                 } finally {
                     urlConnection.disconnect()
                 }
@@ -51,7 +47,7 @@ class MovieLoader(private val listener: MovieLoaderListener, private val baseUrl
         } catch (e: MalformedURLException) {
             Log.e("", "Fail URI", e)
             e.printStackTrace()
-            listener.onFailed(e)
+            loader.onFailed(e)
         }
     }
 
@@ -61,7 +57,7 @@ class MovieLoader(private val listener: MovieLoaderListener, private val baseUrl
     }
 
     interface MovieLoaderListener {
-        fun onLoaded(movieDTO: MoviesDTO, baseUrl: String)
+        fun onLoaded(movies: List<ResultsMovie>, isNow: Boolean)
         fun onFailed(throwable: Throwable)
     }
 }
