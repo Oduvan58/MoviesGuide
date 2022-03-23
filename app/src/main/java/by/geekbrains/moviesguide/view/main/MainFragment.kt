@@ -1,9 +1,11 @@
 package by.geekbrains.moviesguide.view.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.R
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
-import by.geekbrains.moviesguide.model.Movie
+import by.geekbrains.moviesguide.model.ResultsMovie
 import by.geekbrains.moviesguide.showSnackBar
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment.Companion.BUNDLE_KEY
@@ -32,18 +34,18 @@ class MainFragment : Fragment() {
     }
 
     private val adapterNow = MainAdapter(object : OnClickItemMovie {
-        override fun onItemClick(movie: Movie) {
+        override fun onItemClick(movie: ResultsMovie) {
             showDetailsMovie(movie)
         }
     })
 
     private val adapterSoon = MainAdapter(object : OnClickItemMovie {
-        override fun onItemClick(movie: Movie) {
+        override fun onItemClick(movie: ResultsMovie) {
             showDetailsMovie(movie)
         }
     })
 
-    private fun showDetailsMovie(movie: Movie) {
+    private fun showDetailsMovie(movie: ResultsMovie) {
         activity?.supportFragmentManager?.apply {
             beginTransaction()
                 .replace(R.id.activity_main__details_movie_fragment_container,
@@ -63,6 +65,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,6 +77,7 @@ class MainFragment : Fragment() {
                 renderData(appState, adapterNow)
             }
         viewModel.getMovieFromLocalSourceNow()
+
         viewModel.getLiveDataSoon()
             .observe(viewLifecycleOwner) { appState ->
                 renderData(appState, adapterSoon)
