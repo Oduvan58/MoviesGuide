@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.widget.Toast
+import by.geekbrains.moviesguide.R
 
 class MainBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -14,10 +15,10 @@ class MainBroadcastReceiver : BroadcastReceiver() {
     }
 
     fun onConnectionLost(context: Context) {
-        Toast.makeText(context, "Connection lost", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, context.getString(R.string.connection_lost), Toast.LENGTH_LONG).show()
     }
 
     fun onConnectionFound(context: Context) {
-        Toast.makeText(context, "Connection found", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, context.getString(R.string.connection_found), Toast.LENGTH_LONG).show()
     }
 }
