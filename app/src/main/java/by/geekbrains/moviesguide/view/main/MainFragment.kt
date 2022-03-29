@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import by.geekbrains.moviesguide.R
 import by.geekbrains.moviesguide.databinding.FragmentMainBinding
 import by.geekbrains.moviesguide.model.ResultsMovie
-import by.geekbrains.moviesguide.showSnackBar
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment
 import by.geekbrains.moviesguide.view.detail.DetailsMovieFragment.Companion.BUNDLE_KEY
+import by.geekbrains.moviesguide.view.detail.showSnackBar
 import by.geekbrains.moviesguide.viewmodel.AppState
 import by.geekbrains.moviesguide.viewmodel.MainViewModel
 
